@@ -1,9 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Earth's Deep Time</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
@@ -81,8 +78,13 @@ button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); 
   background: var(--surface); border: 1px solid var(--fg); padding: 12px 14px 12px; display: grid; gap: 4px;
   box-shadow: 4px 4px 0 var(--line);
 }
-.chart .tag { margin-bottom: 6px; }
-.row { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: stretch; }
+.chart .tag { margin-bottom: 0; }
+.chead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.layers { display: flex; flex-wrap: wrap; gap: 4px; }
+.layers .chip { font-size: 12px; padding: 2px 8px; }
+.ovbar { touch-action: pan-y; cursor: grab; }
+.ovbar.dragging, .ovbar.dragging * { cursor: grabbing !important; }
+.row { display: grid; grid-template-columns: 78px minmax(0, 1fr); align-items: stretch; }
 .rlabel { font-family: var(--mono); font-size: 12px; text-transform: uppercase; color: var(--muted); align-self: center; }
 .track { position: relative; overflow: hidden; }
 .track.bands {
@@ -122,7 +124,7 @@ button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); 
 .seg-bar { position: absolute; top: 0; height: 8px; border: 1px solid var(--fg); }
 .seg-bar.dark { background: var(--fg); }
 .tlabel { position: absolute; top: 11px; transform: translateX(-50%); font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 12px; color: var(--muted); padding-left: 60px; margin-top: 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 12px; color: var(--muted); padding-left: 78px; margin-top: 4px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .lg { display: inline-block; }
 .lg.flag { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 10px solid var(--accent); }
@@ -131,7 +133,7 @@ button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); 
 .lg.line { width: 0; height: 12px; border-left: 2px solid var(--ext); }
 
 .lower { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 22px; align-items: start; }
-@media (max-width: 760px) { .lower { grid-template-columns: minmax(0, 1fr); } .row { grid-template-columns: 44px minmax(0, 1fr); } .legend { padding-left: 0; } .rlabel { font-size: 10px; } }
+@media (max-width: 760px) { .lower { grid-template-columns: minmax(0, 1fr); } .row { grid-template-columns: 54px minmax(0, 1fr); } .legend { padding-left: 0; } .rlabel { font-size: 9px; } }
 
 .detail { position: relative; background: var(--surface); border: 1px solid var(--fg); box-shadow: 4px 4px 0 var(--line); }
 .detail::before {
@@ -261,8 +263,6 @@ body { margin: 0; }
 .linkish { background: none; border: 0; padding: 0; color: var(--ext); text-decoration: underline; cursor: pointer; font-family: var(--mono); font-size: 13px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 </style>
-</head>
-<body>
 
 <div class="wrap">
   <header>
@@ -284,15 +284,15 @@ body { margin: 0; }
   </div>
 
   <section class="chart" id="chart">
-    <div class="tag" data-i18n="section"></div>
-    <div class="row r0"><div class="rlabel" data-i18n="r0"></div><div class="track bands" id="t0"></div></div>
-    <div class="row r1"><div class="rlabel" data-i18n="r1"></div><div class="track bands" id="t1"></div></div>
-    <div class="row r2"><div class="rlabel" data-i18n="r2"></div><div class="track bands" id="t2"></div></div>
-    <div class="row r3"><div class="rlabel" data-i18n="r3"></div><div class="track bands" id="t3"></div></div>
-    <div class="row"><div class="rlabel" data-i18n="rEv"></div><div class="track events" id="tev"></div></div>
-    <div class="row"><div class="rlabel" id="unit"></div><div class="track axis" id="tax"></div></div>
-    <div class="row"><div class="rlabel" data-i18n="rClim"></div><div class="track clim" id="tclim"></div></div>
-    <div class="legend">
+    <div class="chead"><div class="tag" data-i18n="section"></div><div class="layers" id="layers" role="group"></div></div>
+    <div class="row r0" data-layer="r0"><div class="rlabel" data-i18n="r0"></div><div class="track bands" id="t0"></div></div>
+    <div class="row r1" data-layer="r1"><div class="rlabel" data-i18n="r1"></div><div class="track bands" id="t1"></div></div>
+    <div class="row r2" data-layer="r2"><div class="rlabel" data-i18n="r2"></div><div class="track bands" id="t2"></div></div>
+    <div class="row r3" data-layer="r3"><div class="rlabel" data-i18n="r3"></div><div class="track bands" id="t3"></div></div>
+    <div class="row" data-layer="ev"><div class="rlabel" data-i18n="rEv"></div><div class="track events" id="tev"></div></div>
+    <div class="row" data-layer="ax"><div class="rlabel" id="unit"></div><div class="track axis" id="tax"></div></div>
+    <div class="row" data-layer="clim"><div class="rlabel" data-i18n="rClim"></div><div class="track clim" id="tclim"></div></div>
+    <div class="legend" data-layer="legend">
       <span><i class="lg flag"></i><span data-i18n="lgEvent"></span></span>
       <span><i class="lg flag x"></i><span data-i18n="lgExt"></span></span>
       <span><i class="lg bar"></i><span data-i18n="lgSpan"></span></span>
@@ -367,6 +367,7 @@ const I18N = {
     count: (n) => `${n} find${n === 1 ? '' : 's'}`, empty: 'No finds in this stretch of time. Zoom out to see more.',
     filterLabel: 'Filter finds by what you have studied', extinct: 'no living members',
     unitTitles: { Ga: 'billions of years ago', Ma: 'millions of years ago', ka: 'thousands of years ago' },
+    scaleLbl: 'Scale', legendLbl: 'Legend', layersLbl: 'Show or hide layers',
     searchPh: 'Search finds, periods, groups…  ( / )', searchNone: 'No matches', group: 'Group',
     rClim: 'Climate', lgTemp: 'global temperature, °C', lgO2: 'oxygen, % of the air', lgToday: 'dotted line: 21% oxygen today',
     climNote: 'no reliable temperature record before the Cambrian',
@@ -409,6 +410,7 @@ const I18N = {
     count: (n) => `${n} hallazgo${n === 1 ? '' : 's'}`, empty: 'No hay hallazgos en este tramo. Aléjate para ver más.',
     filterLabel: 'Filtrar hallazgos según lo que has estudiado', extinct: 'sin miembros vivos',
     unitTitles: { Ga: 'miles de millones de años', Ma: 'millones de años', ka: 'miles de años' },
+    scaleLbl: 'Escala', legendLbl: 'Leyenda', layersLbl: 'Mostrar u ocultar capas',
     searchPh: 'Busca hallazgos, periodos, grupos…  ( / )', searchNone: 'Sin resultados', group: 'Grupo',
     rClim: 'Clima', lgTemp: 'temperatura global, °C', lgO2: 'oxígeno, % del aire', lgToday: 'línea punteada: 21 % de oxígeno hoy',
     climNote: 'sin registro fiable de temperatura antes del Cámbrico',
@@ -1516,6 +1518,7 @@ function applyStatic() {
   document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = s[el.dataset.i18n]; });
   $('study').setAttribute('aria-label', s.filterLabel);
   $('q').placeholder = s.searchPh;
+  applyLayers();
   $('q').setAttribute('aria-label', s.searchPh);
   document.querySelectorAll('.lang [data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
 }
@@ -1577,7 +1580,8 @@ function setView(from, to) {
 }
 
 function trackBox() {
-  const r = tracks[0].getBoundingClientRect();
+  const t = [...document.querySelectorAll('#chart .track')].find((el) => el.offsetWidth > 0) || tracks[0];
+  const r = t.getBoundingClientRect();
   return { left: r.left, width: r.width };
 }
 
@@ -2121,6 +2125,76 @@ $('chart').addEventListener('click', (ev) => {
   renderQuiz();
 }, true);
 
+const LAYERS = ['r0', 'r1', 'r2', 'r3', 'ev', 'ax', 'clim', 'legend'];
+let hiddenLayers = new Set();
+try { hiddenLayers = new Set(JSON.parse(localStorage.getItem('dt-layers')) || []); } catch (e) {}
+
+function applyLayers() {
+  const s = S();
+  const names = { r0: s.r0, r1: s.r1, r2: s.r2, r3: s.r3, ev: s.rEv, ax: s.scaleLbl, clim: s.rClim, legend: s.legendLbl };
+  document.querySelectorAll('#chart [data-layer]').forEach((el) => { el.hidden = hiddenLayers.has(el.dataset.layer); });
+  $('layers').setAttribute('aria-label', s.layersLbl);
+  $('layers').innerHTML = LAYERS.map((k) => `<button class="chip" data-toggle="${k}" aria-pressed="${!hiddenLayers.has(k)}">${names[k]}</button>`).join('');
+}
+
+$('layers').addEventListener('click', (ev) => {
+  const b = ev.target.closest('[data-toggle]');
+  if (!b) return;
+  const k = b.dataset.toggle;
+  if (hiddenLayers.has(k)) hiddenLayers.delete(k); else hiddenLayers.add(k);
+  try { localStorage.setItem('dt-layers', JSON.stringify([...hiddenLayers])); } catch (e) {}
+  applyLayers();
+  renderChart();
+});
+
+(function overviewNavigation() {
+  const bar = $('ovbar');
+  let drag = null, suppress = false;
+  bar.addEventListener('pointerdown', (ev) => {
+    if (ev.button !== 0) return;
+    suppress = false;
+    drag = { id: ev.pointerId, x: ev.clientX, y: ev.clientY, from: state.from, to: state.to, active: false };
+  });
+  bar.addEventListener('pointermove', (ev) => {
+    if (!drag || drag.id !== ev.pointerId) return;
+    const dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
+    if (!drag.active) {
+      if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }
+      if (Math.abs(dx) < 4) return;
+      drag.active = true;
+      suppress = true;
+      bar.classList.add('dragging');
+      try { bar.setPointerCapture(ev.pointerId); } catch (e) {}
+    }
+    const shift = (dx / bar.clientWidth) * EARTH;
+    setView(drag.from - shift, drag.to - shift);
+  });
+  const end = () => { drag = null; bar.classList.remove('dragging'); };
+  bar.addEventListener('pointerup', end);
+  bar.addEventListener('pointercancel', end);
+  bar.addEventListener('click', (ev) => {
+    if (!suppress) return;
+    suppress = false;
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+  }, true);
+  bar.addEventListener('wheel', (ev) => {
+    const unit = ev.deltaMode === 1 ? 16 : ev.deltaMode === 2 ? 400 : 1;
+    if (ev.ctrlKey || ev.metaKey) {
+      ev.preventDefault();
+      const span = Math.min(EARTH, Math.max(MIN_SPAN, (state.from - state.to) * Math.exp(ev.deltaY * unit * 0.01)));
+      const c = (state.from + state.to) / 2;
+      setView(c + span / 2, c - span / 2);
+      return;
+    }
+    const horizontal = Math.abs(ev.deltaX) > Math.abs(ev.deltaY) ? ev.deltaX : ev.shiftKey ? ev.deltaY : 0;
+    if (!horizontal) return;
+    ev.preventDefault();
+    const shift = ((horizontal * unit) / bar.clientWidth) * EARTH;
+    setView(state.from - shift, state.to - shift);
+  }, { passive: false });
+})();
+
 new ResizeObserver(() => renderChart()).observe($('chart'));
 applyStatic();
 drawDetail();
@@ -2129,5 +2203,4 @@ drawList();
 drawTree();
 </script>
 
-</body>
-</html>
+</body></html>
