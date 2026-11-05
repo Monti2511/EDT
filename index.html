@@ -2064,7 +2064,22 @@ function renderQuiz() {
 function openQuiz() {
   quiz.open = true;
   $('quizbtn').setAttribute('aria-pressed', 'true');
-  nextQuestion();
+  // Keep the current question (answered or not) when reopening; only start a new one if there is none.
+  if (!quiz.q) { nextQuestion(); return; }
+  const q = quiz.q, a = quiz.answered;
+  quiz.resetArm = false;
+  state.hide = null;
+  state.guess = null;
+  if (q.type === 'place') {
+    if (a) state.guess = a.guess;
+    else state.hide = q.eventId;
+    const u = byId[q.unitId];
+    zoomTo(u.start, u.end);
+    toChart();
+  }
+  renderChart();
+  drawList();
+  renderQuiz();
 }
 
 function closeQuiz() {
@@ -2117,7 +2132,7 @@ $('chart').addEventListener('click', (ev) => {
   const e = byId[quiz.q.eventId];
   const diff = Math.abs(guess - e.age);
   const ok = diff <= span * 0.05;
-  quiz.answered = { ok, diff, pct: (diff / span) * 100 };
+  quiz.answered = { ok, diff, pct: (diff / span) * 100, guess };
   state.guess = guess;
   state.hide = null;
   record(quiz.q, ok);
